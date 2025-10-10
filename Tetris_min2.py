@@ -1,30 +1,74 @@
 import gymnasium as gym
-import tetris_gymnasium
+from tetris_gymnasium.envs.tetris import Tetris
 from stable_baselines3 import DQN
+from stable_baselines3.common.vec_env import DummyVecEnv
 
-# Entrenamiento 
-env = gym.make('Tetris-v1', render_mode='None')
+print("=== INICIANDO AGENTE DE TETRIS ===")
 
-# INTELIGENTE: Intenta cargar modelo existente, sino crea uno nuevo
+# Crear entorno de entrenamiento (sin renderizado)
+env = Tetris(render_mode=None)
+print("✓ Entorno Tetris creado para entrenamiento")
+print(f" - Acciones posibles: {env.action_space.n}")
+print(f" - Espacio de observación: {env.observation_space}")
+
+# IMPORTANTE: Usar MultiInputPolicy para espacios de observación Dict
 try:
     model = DQN.load("dqn_tetris", env=env, verbose=1)
-    print("Modelo cargado, continuando entrenamiento...")
+    print("✓ Modelo existente cargado")
 except:
-    # Si no existe el archivo, crea un modelo nuevo
-    model = DQN("MlpPolicy", env, verbose=1)
-    print("Creando nuevo modelo...")
+    print("Creando nuevo modelo (esto puede tomar unos segundos)...")
+    model = DQN("MultiInputPolicy", env, 
+                learning_rate=1e-4,
+                buffer_size=50000,
+                learning_starts=1000,
+                batch_size=32,
+                gamma=0.99,
+                exploration_fraction=0.1,
+                exploration_final_eps=0.01,
+                verbose=1)
+    print("✓ Nuevo modelo creado con MultiInputPolicy")
 
-# Continúa el entrenamiento (añade 100,000 pasos más)
-model.learn(total_timesteps=100000)
-model.save("dqn_tetris")  # Guarda el modelo mejorado
+# Entrenamiento
+print("\n=== INICIANDO ENTRENAMIENTO ===")
+print("El entrenamiento puede tomar varios minutos...")
+print("Presiona Ctrl+C para interrumpir si es necesario")
 
-# Prueba
-env = gym.make('Tetris-v1', render_mode='human')
-model = DQN.load("dqn_tetris")
-obs, info = env.reset()
+try:
+    model.learn(total_timesteps=50000, log_interval=100)
+    model.save("dqn_tetris")
+    print("✓ Entrenamiento completado y modelo guardado")
+except KeyboardInterrupt:
+    print("Entrenamiento interrumpido por el usuario")
+    model.save("dqn_tetris_interrupted")
+    print("✓ Modelo guardado (entrenamiento interrumpido)")
+except Exception as e:
+    print(f"✗ Error en entrenamiento: {e}")
 
-for _ in range(1000):
-    action, _ = model.predict(obs, deterministic=True)
-    obs, reward, terminated, truncated, info = env.step(action)
-    if terminated or truncated:
-        obs, info = env.reset()
+env.close()
+
+# Prueba con interfaz visual
+print("\n=== INICIANDO PRUEBA VISUAL ===")
+try:
+    env_test = Tetris(render_mode='human')
+    model = DQN.load("dqn_tetris")
+    obs, info = env_test.reset()
+    
+    print("Presiona Ctrl+C para detener la prueba...")
+    games_played = 0
+    
+    for i in range(1000):
+        action, _ = model.predict(obs, deterministic=True)
+        obs, reward, terminated, truncated, info = env_test.step(action)
+        
+        if terminated or truncated:
+            games_played += 1
+            print(f"Juego {games_played} terminado - Reiniciando...")
+            obs, info = env_test.reset()
+            
+except KeyboardInterrupt:
+    print("\n Prueba interrumpida por el usuario")
+except Exception as e:
+    print(f"✗ Error en prueba: {e}")
+finally:
+    env_test.close()
+    print("Programa finalizado")
