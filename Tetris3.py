@@ -1,17 +1,14 @@
-import gymnasium as gym
-from tetris_gymnasium.envs.tetris import Tetris
-from stable_baselines3 import DQN
-from stable_baselines3.common.vec_env import DummyVecEnv
-
-
+import gymnasium as gym                                     # Entrenamiento de modelo por refuerzo
+from tetris_gymnasium.envs.tetris import Tetris             # Ambiente de tetris creado para gymnasium
+from stable_baselines3 import DQN                           # Libreria para usar algoritmo DQN
+from stable_baselines3.common.vec_env import DummyVecEnv    # Convertir el ambiente en matrices
 
 print("Entrenamiento Agente DQN para TETRIS ")
-
 
 # Crear entorno de entrenamiento (sin renderizado)
 env = Tetris(render_mode=None)
 print("Entorno Tetris creado ")
-print(f" - Acciones posibles: {env.action_space.n}")            # Entrega el numero de acciones que puede hacer el modelo
+print(f" - Acciones posibles: {env.action_space.n}")            # Entrega el numero de acciones que puede hacer el modelo que son 8
 print(f" - Espacio de observación: {env.observation_space}")    # Entrega cómo se estructura la observación del entorno
 
 

@@ -1,9 +1,10 @@
 import gymnasium as gym
 from tetris_gymnasium.envs.tetris import Tetris
 from stable_baselines3 import DQN
-import cv2
-import numpy as np
-import time
+
+import cv2          # Procesamiento de Imagen
+import numpy as np  # Calculo de matrices
+import time         # Hacer lento cada movimiento de la computadora
 
 
 
