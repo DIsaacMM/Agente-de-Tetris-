@@ -17,7 +17,7 @@ py -3.9 -m pip install gymnasium stable-baselines3 tetris-gymnasium numpy torch
 py -3.9 "c:/Users/david/Documents/Machine Learning/Proyecto Agente de Tetris/Tetris1.py"
 py -3.9 "c:/Users/david/Documents/Machine Learning/Proyecto Agente de Tetris/Tetris2.py"
 py -3.9 "c:/Users/david/Documents/Machine Learning/Proyecto Agente de Tetris/Tetris3.py"
-
+py -3.9 "c:/Users/david/Documents/Machine Learning/Proyecto Agente de Tetris/Tetris_prueba.py"
 
 
 # Opcionales
