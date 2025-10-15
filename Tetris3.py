@@ -39,7 +39,7 @@ try:
     print("Entrenamiento completado y modelo guardado ")
 except KeyboardInterrupt:
     print("Entrenamiento interrumpido por el usuario ")
-    model.save("dqn_tetris_interrupted ")
+    model.save("dqn_tetris ")
     print("Modelo guardado (entrenamiento interrumpido) ")
 except Exception as e:
     print(f"Error en entrenamiento: {e} ")
