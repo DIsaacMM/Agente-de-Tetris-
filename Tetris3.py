@@ -18,14 +18,14 @@ try:
     print("Modelo existente cargado")
 except:
     print("Creando nuevo modelo ")
-    model = DQN("MultiInputPolicy", env, 
-                learning_rate=1e-4,
-                buffer_size=50000,
-                learning_starts=1000,
-                batch_size=32,
+    model = DQN("MultiInputPolicy", env,
+                learning_rate=5e-5,          # más suave, reduce pérdida alta
+                buffer_size=200000,          # mejor aprovechamiento de RAM
+                learning_starts=5000,        # empieza a entrenar con más datos
+                batch_size=64,               # más estable, aprovecha RAM
                 gamma=0.99,
-                exploration_fraction=0.1,
-                exploration_final_eps=0.01,
+                exploration_fraction=0.2,    # baja el epsilon más lento
+                exploration_final_eps=0.02,  # final un poco mayor, evita atascarse
                 verbose=1)
     print("Modelo Creado")
 
