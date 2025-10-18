@@ -1,8 +1,16 @@
 # === Archivos grandes y modelos ===
 *.zip
 checkpoints/
+<<<<<<< HEAD
 best_model.*
 _backup/
+=======
+best_model.zip
+Agentewa/
+Agente_REHEAT_134M_pasos/
+Agente_Viejo_124M_pasos/
+dqn_tetris.zip
+>>>>>>> 00c2630 (Cambios radicales en codigos, asi como la introduccion de nuevos codigos)
 
 # === Logs y salidas ===
 tb_logs/
