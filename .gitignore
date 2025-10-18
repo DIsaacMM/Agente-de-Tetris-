@@ -1,0 +1,27 @@
+# === Archivos grandes y modelos ===
+*.zip
+checkpoints/
+best_model.*
+_backup/
+
+# === Logs y salidas ===
+tb_logs/
+*.log
+
+# === Archivos experimentales ===
+Prueba.py
+Tetris3.1.py
+
+# === Entornos y temporales de Python ===
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# === Archivos de sistema ===
+.DS_Store
+Thumbs.db
+
