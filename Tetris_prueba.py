@@ -16,7 +16,7 @@ try:
     env_test = Tetris(render_mode='rgb_array')
 
     # Se carga el modelo DQN previamente entrenado (archivo "dqn_tetris.zip")
-    model = DQN.load("dqn_tetris")
+    model = DQN.load("dqn_tetris.zip")
 
     # Reinicia el entorno y obtiene la primera observación
     obs, info = env_test.reset()
